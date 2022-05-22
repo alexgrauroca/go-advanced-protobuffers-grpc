@@ -2,7 +2,7 @@ syntax="proto3";
 
 package student;
 
-option go_package="platzi.com/go/grpc;studentpb";
+option go_package="platzi.com/go/grpc/studentpb";
 
 message Student {
     string id = 1;

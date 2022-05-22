@@ -1,8 +1,10 @@
 syntax="proto3";
 
+import "studentpb/student.proto";
+
 package test;
 
-option go_package="platzi.com/go/grpc;testpb";
+option go_package="platzi.com/go/grpc/testpb";
 
 message Test {
     string id = 1;
@@ -29,8 +31,19 @@ message SetQuestionResponse {
     bool ok = 1;
 }
 
+message EnrollmentRequest {
+    string student_id = 1;
+    string test_id = 2;
+}
+
+message GetStudentsPerTestRequest {
+    string test_id = 1;
+}
+
 service TestService {
     rpc GetTest(GetTestRequest) returns (Test);
     rpc SetTest(Test) returns (SetTestResponse);
     rpc SetQuestions(stream Question) returns (SetQuestionResponse);
+    rpc EnrollStudents(stream EnrollmentRequest) returns (SetQuestionResponse);
+    rpc GetStudentsPerTest(GetStudentsPerTestRequest) returns (stream student.Student);
 }

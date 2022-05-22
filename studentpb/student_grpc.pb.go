@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.2.0
 // - protoc             v3.6.1
-// source: src/proto/student.proto
+// source: studentpb/student.proto
 
 package studentpb
 
@@ -137,5 +137,5 @@ var StudentService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "src/proto/student.proto",
+	Metadata: "studentpb/student.proto",
 }

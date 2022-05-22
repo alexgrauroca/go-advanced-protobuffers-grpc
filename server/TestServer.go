@@ -7,6 +7,7 @@ import (
 
 	"platzi.com/go/grpc/models"
 	"platzi.com/go/grpc/repository"
+	"platzi.com/go/grpc/studentpb"
 	"platzi.com/go/grpc/testpb"
 )
 
@@ -80,4 +81,60 @@ func (s *TestServer) SetQuestions(stream testpb.TestService_SetQuestionsServer) 
 			})
 		}
 	}
+}
+
+func (s *TestServer) EnrollStudents(stream testpb.TestService_EnrollStudentsServer) error {
+	for {
+		msg, err := stream.Recv()
+
+		if err == io.EOF {
+			return stream.SendAndClose(&testpb.SetQuestionResponse{
+				Ok: true,
+			})
+		}
+
+		if err != nil {
+			fmt.Println(err)
+			return err
+		}
+
+		enrollment := &models.Enrollment{
+			TestId:    msg.GetTestId(),
+			StudentId: msg.GetStudentId(),
+		}
+
+		err = s.repo.SetEnrollment(context.Background(), enrollment)
+
+		if err != nil {
+			fmt.Println(err)
+			return stream.SendAndClose(&testpb.SetQuestionResponse{
+				Ok: false,
+			})
+		}
+	}
+}
+
+func (s *TestServer) GetStudentsPerTest(req *testpb.GetStudentsPerTestRequest, stream testpb.TestService_GetStudentsPerTestServer) error {
+	students, err := s.repo.GetStudentsPerTest(context.Background(), req.GetTestId())
+
+	if err != nil {
+		return err
+	}
+
+	for key := 0; key < len(students); key++ {
+		repoStudent := students[key]
+		student := &studentpb.Student{
+			Id:   repoStudent.Id,
+			Name: repoStudent.Name,
+			Age:  repoStudent.Age,
+		}
+
+		err := stream.Send(student)
+
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
 }

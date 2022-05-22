@@ -13,3 +13,7 @@ func SetTest(ctx context.Context, test *models.Test) error {
 func GetTest(ctx context.Context, id string) (*models.Test, error) {
 	return implementation.GetTest(ctx, id)
 }
+
+func GetStudentsPerTest(ctx context.Context, testId string) ([]*models.Student, error) {
+	return implementation.GetStudentsPerTest(ctx, testId)
+}

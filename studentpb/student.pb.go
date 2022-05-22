@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.28.0
 // 	protoc        v3.6.1
-// source: src/proto/student.proto
+// source: studentpb/student.proto
 
 package studentpb
 
@@ -33,7 +33,7 @@ type Student struct {
 func (x *Student) Reset() {
 	*x = Student{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_src_proto_student_proto_msgTypes[0]
+		mi := &file_studentpb_student_proto_msgTypes[0]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -46,7 +46,7 @@ func (x *Student) String() string {
 func (*Student) ProtoMessage() {}
 
 func (x *Student) ProtoReflect() protoreflect.Message {
-	mi := &file_src_proto_student_proto_msgTypes[0]
+	mi := &file_studentpb_student_proto_msgTypes[0]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -59,7 +59,7 @@ func (x *Student) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Student.ProtoReflect.Descriptor instead.
 func (*Student) Descriptor() ([]byte, []int) {
-	return file_src_proto_student_proto_rawDescGZIP(), []int{0}
+	return file_studentpb_student_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *Student) GetId() string {
@@ -94,7 +94,7 @@ type GetStudentRequest struct {
 func (x *GetStudentRequest) Reset() {
 	*x = GetStudentRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_src_proto_student_proto_msgTypes[1]
+		mi := &file_studentpb_student_proto_msgTypes[1]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -107,7 +107,7 @@ func (x *GetStudentRequest) String() string {
 func (*GetStudentRequest) ProtoMessage() {}
 
 func (x *GetStudentRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_src_proto_student_proto_msgTypes[1]
+	mi := &file_studentpb_student_proto_msgTypes[1]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -120,7 +120,7 @@ func (x *GetStudentRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetStudentRequest.ProtoReflect.Descriptor instead.
 func (*GetStudentRequest) Descriptor() ([]byte, []int) {
-	return file_src_proto_student_proto_rawDescGZIP(), []int{1}
+	return file_studentpb_student_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *GetStudentRequest) GetId() string {
@@ -141,7 +141,7 @@ type SetStudentResponse struct {
 func (x *SetStudentResponse) Reset() {
 	*x = SetStudentResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_src_proto_student_proto_msgTypes[2]
+		mi := &file_studentpb_student_proto_msgTypes[2]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -154,7 +154,7 @@ func (x *SetStudentResponse) String() string {
 func (*SetStudentResponse) ProtoMessage() {}
 
 func (x *SetStudentResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_src_proto_student_proto_msgTypes[2]
+	mi := &file_studentpb_student_proto_msgTypes[2]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -167,7 +167,7 @@ func (x *SetStudentResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SetStudentResponse.ProtoReflect.Descriptor instead.
 func (*SetStudentResponse) Descriptor() ([]byte, []int) {
-	return file_src_proto_student_proto_rawDescGZIP(), []int{2}
+	return file_studentpb_student_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *SetStudentResponse) GetId() string {
@@ -177,10 +177,10 @@ func (x *SetStudentResponse) GetId() string {
 	return ""
 }
 
-var File_src_proto_student_proto protoreflect.FileDescriptor
+var File_studentpb_student_proto protoreflect.FileDescriptor
 
-var file_src_proto_student_proto_rawDesc = []byte{
-	0x0a, 0x17, 0x73, 0x72, 0x63, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2f, 0x73, 0x74, 0x75, 0x64,
+var file_studentpb_student_proto_rawDesc = []byte{
+	0x0a, 0x17, 0x73, 0x74, 0x75, 0x64, 0x65, 0x6e, 0x74, 0x70, 0x62, 0x2f, 0x73, 0x74, 0x75, 0x64,
 	0x65, 0x6e, 0x74, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12, 0x07, 0x73, 0x74, 0x75, 0x64, 0x65,
 	0x6e, 0x74, 0x22, 0x3f, 0x0a, 0x07, 0x53, 0x74, 0x75, 0x64, 0x65, 0x6e, 0x74, 0x12, 0x0e, 0x0a,
 	0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x69, 0x64, 0x12, 0x12, 0x0a,
@@ -201,29 +201,29 @@ var file_src_proto_student_proto_rawDesc = []byte{
 	0x73, 0x74, 0x75, 0x64, 0x65, 0x6e, 0x74, 0x2e, 0x53, 0x65, 0x74, 0x53, 0x74, 0x75, 0x64, 0x65,
 	0x6e, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x42, 0x1e, 0x5a, 0x1c, 0x70, 0x6c,
 	0x61, 0x74, 0x7a, 0x69, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x67, 0x6f, 0x2f, 0x67, 0x72, 0x70, 0x63,
-	0x3b, 0x73, 0x74, 0x75, 0x64, 0x65, 0x6e, 0x74, 0x70, 0x62, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74,
+	0x2f, 0x73, 0x74, 0x75, 0x64, 0x65, 0x6e, 0x74, 0x70, 0x62, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74,
 	0x6f, 0x33,
 }
 
 var (
-	file_src_proto_student_proto_rawDescOnce sync.Once
-	file_src_proto_student_proto_rawDescData = file_src_proto_student_proto_rawDesc
+	file_studentpb_student_proto_rawDescOnce sync.Once
+	file_studentpb_student_proto_rawDescData = file_studentpb_student_proto_rawDesc
 )
 
-func file_src_proto_student_proto_rawDescGZIP() []byte {
-	file_src_proto_student_proto_rawDescOnce.Do(func() {
-		file_src_proto_student_proto_rawDescData = protoimpl.X.CompressGZIP(file_src_proto_student_proto_rawDescData)
+func file_studentpb_student_proto_rawDescGZIP() []byte {
+	file_studentpb_student_proto_rawDescOnce.Do(func() {
+		file_studentpb_student_proto_rawDescData = protoimpl.X.CompressGZIP(file_studentpb_student_proto_rawDescData)
 	})
-	return file_src_proto_student_proto_rawDescData
+	return file_studentpb_student_proto_rawDescData
 }
 
-var file_src_proto_student_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
-var file_src_proto_student_proto_goTypes = []interface{}{
+var file_studentpb_student_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
+var file_studentpb_student_proto_goTypes = []interface{}{
 	(*Student)(nil),            // 0: student.Student
 	(*GetStudentRequest)(nil),  // 1: student.GetStudentRequest
 	(*SetStudentResponse)(nil), // 2: student.SetStudentResponse
 }
-var file_src_proto_student_proto_depIdxs = []int32{
+var file_studentpb_student_proto_depIdxs = []int32{
 	1, // 0: student.StudentService.GetStudent:input_type -> student.GetStudentRequest
 	0, // 1: student.StudentService.SetStudent:input_type -> student.Student
 	0, // 2: student.StudentService.GetStudent:output_type -> student.Student
@@ -235,13 +235,13 @@ var file_src_proto_student_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for field type_name
 }
 
-func init() { file_src_proto_student_proto_init() }
-func file_src_proto_student_proto_init() {
-	if File_src_proto_student_proto != nil {
+func init() { file_studentpb_student_proto_init() }
+func file_studentpb_student_proto_init() {
+	if File_studentpb_student_proto != nil {
 		return
 	}
 	if !protoimpl.UnsafeEnabled {
-		file_src_proto_student_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
+		file_studentpb_student_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*Student); i {
 			case 0:
 				return &v.state
@@ -253,7 +253,7 @@ func file_src_proto_student_proto_init() {
 				return nil
 			}
 		}
-		file_src_proto_student_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
+		file_studentpb_student_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*GetStudentRequest); i {
 			case 0:
 				return &v.state
@@ -265,7 +265,7 @@ func file_src_proto_student_proto_init() {
 				return nil
 			}
 		}
-		file_src_proto_student_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+		file_studentpb_student_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*SetStudentResponse); i {
 			case 0:
 				return &v.state
@@ -282,18 +282,18 @@ func file_src_proto_student_proto_init() {
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: file_src_proto_student_proto_rawDesc,
+			RawDescriptor: file_studentpb_student_proto_rawDesc,
 			NumEnums:      0,
 			NumMessages:   3,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_src_proto_student_proto_goTypes,
-		DependencyIndexes: file_src_proto_student_proto_depIdxs,
-		MessageInfos:      file_src_proto_student_proto_msgTypes,
+		GoTypes:           file_studentpb_student_proto_goTypes,
+		DependencyIndexes: file_studentpb_student_proto_depIdxs,
+		MessageInfos:      file_studentpb_student_proto_msgTypes,
 	}.Build()
-	File_src_proto_student_proto = out.File
-	file_src_proto_student_proto_rawDesc = nil
-	file_src_proto_student_proto_goTypes = nil
-	file_src_proto_student_proto_depIdxs = nil
+	File_studentpb_student_proto = out.File
+	file_studentpb_student_proto_rawDesc = nil
+	file_studentpb_student_proto_goTypes = nil
+	file_studentpb_student_proto_depIdxs = nil
 }
