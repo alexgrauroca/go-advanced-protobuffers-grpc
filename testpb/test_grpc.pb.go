@@ -24,6 +24,7 @@ const _ = grpc.SupportPackageIsVersion7
 type TestServiceClient interface {
 	GetTest(ctx context.Context, in *GetTestRequest, opts ...grpc.CallOption) (*Test, error)
 	SetTest(ctx context.Context, in *Test, opts ...grpc.CallOption) (*SetTestResponse, error)
+	SetQuestions(ctx context.Context, opts ...grpc.CallOption) (TestService_SetQuestionsClient, error)
 }
 
 type testServiceClient struct {
@@ -52,12 +53,47 @@ func (c *testServiceClient) SetTest(ctx context.Context, in *Test, opts ...grpc.
 	return out, nil
 }
 
+func (c *testServiceClient) SetQuestions(ctx context.Context, opts ...grpc.CallOption) (TestService_SetQuestionsClient, error) {
+	stream, err := c.cc.NewStream(ctx, &TestService_ServiceDesc.Streams[0], "/test.TestService/SetQuestions", opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &testServiceSetQuestionsClient{stream}
+	return x, nil
+}
+
+type TestService_SetQuestionsClient interface {
+	Send(*Question) error
+	CloseAndRecv() (*SetQuestionResponse, error)
+	grpc.ClientStream
+}
+
+type testServiceSetQuestionsClient struct {
+	grpc.ClientStream
+}
+
+func (x *testServiceSetQuestionsClient) Send(m *Question) error {
+	return x.ClientStream.SendMsg(m)
+}
+
+func (x *testServiceSetQuestionsClient) CloseAndRecv() (*SetQuestionResponse, error) {
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	m := new(SetQuestionResponse)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 // TestServiceServer is the server API for TestService service.
 // All implementations must embed UnimplementedTestServiceServer
 // for forward compatibility
 type TestServiceServer interface {
 	GetTest(context.Context, *GetTestRequest) (*Test, error)
 	SetTest(context.Context, *Test) (*SetTestResponse, error)
+	SetQuestions(TestService_SetQuestionsServer) error
 	mustEmbedUnimplementedTestServiceServer()
 }
 
@@ -70,6 +106,9 @@ func (UnimplementedTestServiceServer) GetTest(context.Context, *GetTestRequest) 
 }
 func (UnimplementedTestServiceServer) SetTest(context.Context, *Test) (*SetTestResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SetTest not implemented")
+}
+func (UnimplementedTestServiceServer) SetQuestions(TestService_SetQuestionsServer) error {
+	return status.Errorf(codes.Unimplemented, "method SetQuestions not implemented")
 }
 func (UnimplementedTestServiceServer) mustEmbedUnimplementedTestServiceServer() {}
 
@@ -120,6 +159,32 @@ func _TestService_SetTest_Handler(srv interface{}, ctx context.Context, dec func
 	return interceptor(ctx, in, info, handler)
 }
 
+func _TestService_SetQuestions_Handler(srv interface{}, stream grpc.ServerStream) error {
+	return srv.(TestServiceServer).SetQuestions(&testServiceSetQuestionsServer{stream})
+}
+
+type TestService_SetQuestionsServer interface {
+	SendAndClose(*SetQuestionResponse) error
+	Recv() (*Question, error)
+	grpc.ServerStream
+}
+
+type testServiceSetQuestionsServer struct {
+	grpc.ServerStream
+}
+
+func (x *testServiceSetQuestionsServer) SendAndClose(m *SetQuestionResponse) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func (x *testServiceSetQuestionsServer) Recv() (*Question, error) {
+	m := new(Question)
+	if err := x.ServerStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 // TestService_ServiceDesc is the grpc.ServiceDesc for TestService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -136,6 +201,12 @@ var TestService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _TestService_SetTest_Handler,
 		},
 	},
-	Streams:  []grpc.StreamDesc{},
+	Streams: []grpc.StreamDesc{
+		{
+			StreamName:    "SetQuestions",
+			Handler:       _TestService_SetQuestions_Handler,
+			ClientStreams: true,
+		},
+	},
 	Metadata: "testpb/test.proto",
 }

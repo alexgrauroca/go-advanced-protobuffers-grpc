@@ -18,7 +18,19 @@ message SetTestResponse {
     string name = 2;
 }
 
+message Question {
+    string id = 1;
+    string answer = 2;
+    string question = 3;
+    string test_id = 4;
+}
+
+message SetQuestionResponse {
+    bool ok = 1;
+}
+
 service TestService {
     rpc GetTest(GetTestRequest) returns (Test);
     rpc SetTest(Test) returns (SetTestResponse);
+    rpc SetQuestions(stream Question) returns (SetQuestionResponse);
 }

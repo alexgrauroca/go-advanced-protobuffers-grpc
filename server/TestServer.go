@@ -2,6 +2,8 @@ package server
 
 import (
 	"context"
+	"fmt"
+	"io"
 
 	"platzi.com/go/grpc/models"
 	"platzi.com/go/grpc/repository"
@@ -45,4 +47,37 @@ func (s *TestServer) SetTest(ctx context.Context, req *testpb.Test) (*testpb.Set
 	return &testpb.SetTestResponse{
 		Id: test.Id,
 	}, nil
+}
+
+func (s *TestServer) SetQuestions(stream testpb.TestService_SetQuestionsServer) error {
+	for {
+		msg, err := stream.Recv()
+
+		if err == io.EOF {
+			return stream.SendAndClose(&testpb.SetQuestionResponse{
+				Ok: true,
+			})
+		}
+
+		if err != nil {
+			fmt.Println(err)
+			return err
+		}
+
+		question := &models.Question{
+			Id:       msg.GetId(),
+			TestId:   msg.GetTestId(),
+			Question: msg.GetQuestion(),
+			Answer:   msg.GetAnswer(),
+		}
+
+		err = s.repo.SetQuestion(context.Background(), question)
+
+		if err != nil {
+			fmt.Println(err)
+			return stream.SendAndClose(&testpb.SetQuestionResponse{
+				Ok: false,
+			})
+		}
+	}
 }
