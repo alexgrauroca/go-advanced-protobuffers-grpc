@@ -8,11 +8,11 @@ import (
 	"google.golang.org/grpc/reflection"
 	"platzi.com/go/grpc/database"
 	"platzi.com/go/grpc/server"
-	"platzi.com/go/grpc/studentpb"
+	"platzi.com/go/grpc/testpb"
 )
 
 func main() {
-	list, err := net.Listen("tcp", ":5060")
+	list, err := net.Listen("tcp", ":5070")
 
 	if err != nil {
 		log.Fatal(err)
@@ -25,10 +25,10 @@ func main() {
 		log.Fatal(err)
 	}
 
-	server := server.NewStudentServer(repo)
+	server := server.NewTestServer(repo)
 	s := grpc.NewServer()
 
-	studentpb.RegisterStudentServiceServer(s, server)
+	testpb.RegisterTestServiceServer(s, server)
 	reflection.Register(s)
 
 	if err := s.Serve(list); err != nil {
