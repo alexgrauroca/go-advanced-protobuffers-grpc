@@ -31,6 +31,8 @@ message QuestionPerTest {
     string id = 1;
     string question = 2;
     bool ok = 3;
+    int32 current = 4;
+    int32 total = 5;
 }
 
 message SetQuestionResponse {

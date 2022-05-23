@@ -162,17 +162,17 @@ func (s *TestServer) TakeTest(stream testpb.TestService_TakeTestServer) error {
 		var currentQuestion = &models.Question{}
 		i := 0
 		lenQuestions := len(questions)
+		lenQuestions32 := int32(lenQuestions)
 
 		for {
 			if i < lenQuestions {
 				currentQuestion = questions[i]
-			}
-
-			if i < lenQuestions {
 				questionToSend := &testpb.QuestionPerTest{
 					Id:       currentQuestion.Id,
 					Question: currentQuestion.Question,
 					Ok:       false,
+					Current:  int32(i + 1),
+					Total:    lenQuestions32,
 				}
 
 				err := stream.Send(questionToSend)
@@ -202,11 +202,13 @@ func (s *TestServer) TakeTest(stream testpb.TestService_TakeTestServer) error {
 					fmt.Println(err)
 					return err
 				}
-			} else if i >= lenQuestions {
+			} else {
 				questionToSend := &testpb.QuestionPerTest{
 					Id:       "",
 					Question: "",
 					Ok:       true,
+					Current:  int32(0),
+					Total:    int32(0),
 				}
 
 				err := stream.Send(questionToSend)
