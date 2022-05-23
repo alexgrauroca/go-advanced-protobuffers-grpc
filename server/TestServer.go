@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"io"
+	"log"
 
 	"platzi.com/go/grpc/models"
 	"platzi.com/go/grpc/repository"
@@ -137,4 +138,85 @@ func (s *TestServer) GetStudentsPerTest(req *testpb.GetStudentsPerTestRequest, s
 	}
 
 	return nil
+}
+
+func (s *TestServer) TakeTest(stream testpb.TestService_TakeTestServer) error {
+	for {
+		msg, err := stream.Recv()
+
+		if err == io.EOF {
+			return nil
+		}
+
+		if err != nil {
+			fmt.Println(err)
+			return err
+		}
+
+		questions, err := s.repo.GetQuestionPerTest(context.Background(), msg.GetTestId())
+
+		if err != nil {
+			return err
+		}
+
+		var currentQuestion = &models.Question{}
+		i := 0
+		lenQuestions := len(questions)
+
+		for {
+			if i < lenQuestions {
+				currentQuestion = questions[i]
+			}
+
+			if i < lenQuestions {
+				questionToSend := &testpb.QuestionPerTest{
+					Id:       currentQuestion.Id,
+					Question: currentQuestion.Question,
+					Ok:       false,
+				}
+
+				err := stream.Send(questionToSend)
+
+				if err != nil {
+					return err
+				}
+
+				i++
+
+				answer, err := stream.Recv()
+
+				if err == io.EOF {
+					return nil
+				}
+
+				if err != nil {
+					return err
+				}
+
+				log.Println("Answer: ", answer.GetAnswer())
+				currentQuestion.Answer = answer.GetAnswer()
+
+				err = s.repo.SetAnswer(context.Background(), currentQuestion)
+
+				if err != nil {
+					fmt.Println(err)
+					return err
+				}
+			} else if i >= lenQuestions {
+				questionToSend := &testpb.QuestionPerTest{
+					Id:       "",
+					Question: "",
+					Ok:       true,
+				}
+
+				err := stream.Send(questionToSend)
+
+				if err != nil {
+					return err
+				}
+
+				break
+			}
+		}
+	}
 }

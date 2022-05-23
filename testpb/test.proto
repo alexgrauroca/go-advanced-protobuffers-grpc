@@ -27,6 +27,12 @@ message Question {
     string test_id = 4;
 }
 
+message QuestionPerTest {
+    string id = 1;
+    string question = 2;
+    bool ok = 3;
+}
+
 message SetQuestionResponse {
     bool ok = 1;
 }
@@ -40,10 +46,16 @@ message GetStudentsPerTestRequest {
     string test_id = 1;
 }
 
+message TakeTestRequest {
+    string answer = 1;
+    string test_id = 2;
+}
+
 service TestService {
     rpc GetTest(GetTestRequest) returns (Test);
     rpc SetTest(Test) returns (SetTestResponse);
     rpc SetQuestions(stream Question) returns (SetQuestionResponse);
     rpc EnrollStudents(stream EnrollmentRequest) returns (SetQuestionResponse);
     rpc GetStudentsPerTest(GetStudentsPerTestRequest) returns (stream student.Student);
+    rpc TakeTest(stream TakeTestRequest) returns (stream QuestionPerTest);
 }

@@ -17,3 +17,7 @@ func GetTest(ctx context.Context, id string) (*models.Test, error) {
 func GetStudentsPerTest(ctx context.Context, testId string) ([]*models.Student, error) {
 	return implementation.GetStudentsPerTest(ctx, testId)
 }
+
+func GetQuestionPerTest(ctx context.Context, testId string) ([]*models.Question, error) {
+	return implementation.GetQuestionPerTest(ctx, testId)
+}
