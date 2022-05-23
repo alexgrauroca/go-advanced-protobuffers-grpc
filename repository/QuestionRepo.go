@@ -9,7 +9,3 @@ import (
 func SetQuestion(ctx context.Context, question *models.Question) error {
 	return implementation.SetQuestion(ctx, question)
 }
-
-func SetAnswer(ctx context.Context, question *models.Question) error {
-	return implementation.SetAnswer(ctx, question)
-}

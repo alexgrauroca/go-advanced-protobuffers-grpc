@@ -482,8 +482,9 @@ type TakeTestRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Answer string `protobuf:"bytes,1,opt,name=answer,proto3" json:"answer,omitempty"`
-	TestId string `protobuf:"bytes,2,opt,name=test_id,json=testId,proto3" json:"test_id,omitempty"`
+	Answer    string `protobuf:"bytes,1,opt,name=answer,proto3" json:"answer,omitempty"`
+	TestId    string `protobuf:"bytes,2,opt,name=test_id,json=testId,proto3" json:"test_id,omitempty"`
+	StudentId string `protobuf:"bytes,3,opt,name=student_id,json=studentId,proto3" json:"student_id,omitempty"`
 }
 
 func (x *TakeTestRequest) Reset() {
@@ -532,6 +533,155 @@ func (x *TakeTestRequest) GetTestId() string {
 	return ""
 }
 
+func (x *TakeTestRequest) GetStudentId() string {
+	if x != nil {
+		return x.StudentId
+	}
+	return ""
+}
+
+type GetTestScoreRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	TestId    string `protobuf:"bytes,1,opt,name=test_id,json=testId,proto3" json:"test_id,omitempty"`
+	StudentId string `protobuf:"bytes,2,opt,name=student_id,json=studentId,proto3" json:"student_id,omitempty"`
+}
+
+func (x *GetTestScoreRequest) Reset() {
+	*x = GetTestScoreRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_testpb_test_proto_msgTypes[9]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetTestScoreRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetTestScoreRequest) ProtoMessage() {}
+
+func (x *GetTestScoreRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_testpb_test_proto_msgTypes[9]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetTestScoreRequest.ProtoReflect.Descriptor instead.
+func (*GetTestScoreRequest) Descriptor() ([]byte, []int) {
+	return file_testpb_test_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *GetTestScoreRequest) GetTestId() string {
+	if x != nil {
+		return x.TestId
+	}
+	return ""
+}
+
+func (x *GetTestScoreRequest) GetStudentId() string {
+	if x != nil {
+		return x.StudentId
+	}
+	return ""
+}
+
+type TestScore struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	TestId    string `protobuf:"bytes,1,opt,name=test_id,json=testId,proto3" json:"test_id,omitempty"`
+	StudentId string `protobuf:"bytes,2,opt,name=student_id,json=studentId,proto3" json:"student_id,omitempty"`
+	Ok        int32  `protobuf:"varint,3,opt,name=ok,proto3" json:"ok,omitempty"`
+	Ko        int32  `protobuf:"varint,4,opt,name=ko,proto3" json:"ko,omitempty"`
+	Total     int32  `protobuf:"varint,5,opt,name=total,proto3" json:"total,omitempty"`
+	Score     int32  `protobuf:"varint,6,opt,name=score,proto3" json:"score,omitempty"`
+}
+
+func (x *TestScore) Reset() {
+	*x = TestScore{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_testpb_test_proto_msgTypes[10]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *TestScore) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*TestScore) ProtoMessage() {}
+
+func (x *TestScore) ProtoReflect() protoreflect.Message {
+	mi := &file_testpb_test_proto_msgTypes[10]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use TestScore.ProtoReflect.Descriptor instead.
+func (*TestScore) Descriptor() ([]byte, []int) {
+	return file_testpb_test_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *TestScore) GetTestId() string {
+	if x != nil {
+		return x.TestId
+	}
+	return ""
+}
+
+func (x *TestScore) GetStudentId() string {
+	if x != nil {
+		return x.StudentId
+	}
+	return ""
+}
+
+func (x *TestScore) GetOk() int32 {
+	if x != nil {
+		return x.Ok
+	}
+	return 0
+}
+
+func (x *TestScore) GetKo() int32 {
+	if x != nil {
+		return x.Ko
+	}
+	return 0
+}
+
+func (x *TestScore) GetTotal() int32 {
+	if x != nil {
+		return x.Total
+	}
+	return 0
+}
+
+func (x *TestScore) GetScore() int32 {
+	if x != nil {
+		return x.Score
+	}
+	return 0
+}
+
 var File_testpb_test_proto protoreflect.FileDescriptor
 
 var file_testpb_test_proto_rawDesc = []byte{
@@ -571,11 +721,27 @@ var file_testpb_test_proto_rawDesc = []byte{
 	0x74, 0x49, 0x64, 0x22, 0x34, 0x0a, 0x19, 0x47, 0x65, 0x74, 0x53, 0x74, 0x75, 0x64, 0x65, 0x6e,
 	0x74, 0x73, 0x50, 0x65, 0x72, 0x54, 0x65, 0x73, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
 	0x12, 0x17, 0x0a, 0x07, 0x74, 0x65, 0x73, 0x74, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28,
-	0x09, 0x52, 0x06, 0x74, 0x65, 0x73, 0x74, 0x49, 0x64, 0x22, 0x42, 0x0a, 0x0f, 0x54, 0x61, 0x6b,
+	0x09, 0x52, 0x06, 0x74, 0x65, 0x73, 0x74, 0x49, 0x64, 0x22, 0x61, 0x0a, 0x0f, 0x54, 0x61, 0x6b,
 	0x65, 0x54, 0x65, 0x73, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x16, 0x0a, 0x06,
 	0x61, 0x6e, 0x73, 0x77, 0x65, 0x72, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x61, 0x6e,
 	0x73, 0x77, 0x65, 0x72, 0x12, 0x17, 0x0a, 0x07, 0x74, 0x65, 0x73, 0x74, 0x5f, 0x69, 0x64, 0x18,
-	0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x74, 0x65, 0x73, 0x74, 0x49, 0x64, 0x32, 0xf6, 0x02,
+	0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x74, 0x65, 0x73, 0x74, 0x49, 0x64, 0x12, 0x1d, 0x0a,
+	0x0a, 0x73, 0x74, 0x75, 0x64, 0x65, 0x6e, 0x74, 0x5f, 0x69, 0x64, 0x18, 0x03, 0x20, 0x01, 0x28,
+	0x09, 0x52, 0x09, 0x73, 0x74, 0x75, 0x64, 0x65, 0x6e, 0x74, 0x49, 0x64, 0x22, 0x4d, 0x0a, 0x13,
+	0x47, 0x65, 0x74, 0x54, 0x65, 0x73, 0x74, 0x53, 0x63, 0x6f, 0x72, 0x65, 0x52, 0x65, 0x71, 0x75,
+	0x65, 0x73, 0x74, 0x12, 0x17, 0x0a, 0x07, 0x74, 0x65, 0x73, 0x74, 0x5f, 0x69, 0x64, 0x18, 0x01,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x74, 0x65, 0x73, 0x74, 0x49, 0x64, 0x12, 0x1d, 0x0a, 0x0a,
+	0x73, 0x74, 0x75, 0x64, 0x65, 0x6e, 0x74, 0x5f, 0x69, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09,
+	0x52, 0x09, 0x73, 0x74, 0x75, 0x64, 0x65, 0x6e, 0x74, 0x49, 0x64, 0x22, 0x8f, 0x01, 0x0a, 0x09,
+	0x54, 0x65, 0x73, 0x74, 0x53, 0x63, 0x6f, 0x72, 0x65, 0x12, 0x17, 0x0a, 0x07, 0x74, 0x65, 0x73,
+	0x74, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x74, 0x65, 0x73, 0x74,
+	0x49, 0x64, 0x12, 0x1d, 0x0a, 0x0a, 0x73, 0x74, 0x75, 0x64, 0x65, 0x6e, 0x74, 0x5f, 0x69, 0x64,
+	0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x73, 0x74, 0x75, 0x64, 0x65, 0x6e, 0x74, 0x49,
+	0x64, 0x12, 0x0e, 0x0a, 0x02, 0x6f, 0x6b, 0x18, 0x03, 0x20, 0x01, 0x28, 0x05, 0x52, 0x02, 0x6f,
+	0x6b, 0x12, 0x0e, 0x0a, 0x02, 0x6b, 0x6f, 0x18, 0x04, 0x20, 0x01, 0x28, 0x05, 0x52, 0x02, 0x6b,
+	0x6f, 0x12, 0x14, 0x0a, 0x05, 0x74, 0x6f, 0x74, 0x61, 0x6c, 0x18, 0x05, 0x20, 0x01, 0x28, 0x05,
+	0x52, 0x05, 0x74, 0x6f, 0x74, 0x61, 0x6c, 0x12, 0x14, 0x0a, 0x05, 0x73, 0x63, 0x6f, 0x72, 0x65,
+	0x18, 0x06, 0x20, 0x01, 0x28, 0x05, 0x52, 0x05, 0x73, 0x63, 0x6f, 0x72, 0x65, 0x32, 0xb2, 0x03,
 	0x0a, 0x0b, 0x54, 0x65, 0x73, 0x74, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x2b, 0x0a,
 	0x07, 0x47, 0x65, 0x74, 0x54, 0x65, 0x73, 0x74, 0x12, 0x14, 0x2e, 0x74, 0x65, 0x73, 0x74, 0x2e,
 	0x47, 0x65, 0x74, 0x54, 0x65, 0x73, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x0a,
@@ -599,9 +765,13 @@ var file_testpb_test_proto_rawDesc = []byte{
 	0x54, 0x65, 0x73, 0x74, 0x12, 0x15, 0x2e, 0x74, 0x65, 0x73, 0x74, 0x2e, 0x54, 0x61, 0x6b, 0x65,
 	0x54, 0x65, 0x73, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x15, 0x2e, 0x74, 0x65,
 	0x73, 0x74, 0x2e, 0x51, 0x75, 0x65, 0x73, 0x74, 0x69, 0x6f, 0x6e, 0x50, 0x65, 0x72, 0x54, 0x65,
-	0x73, 0x74, 0x28, 0x01, 0x30, 0x01, 0x42, 0x1b, 0x5a, 0x19, 0x70, 0x6c, 0x61, 0x74, 0x7a, 0x69,
-	0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x67, 0x6f, 0x2f, 0x67, 0x72, 0x70, 0x63, 0x2f, 0x74, 0x65, 0x73,
-	0x74, 0x70, 0x62, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x73, 0x74, 0x28, 0x01, 0x30, 0x01, 0x12, 0x3a, 0x0a, 0x0c, 0x47, 0x65, 0x74, 0x54, 0x65, 0x73,
+	0x74, 0x53, 0x63, 0x6f, 0x72, 0x65, 0x12, 0x19, 0x2e, 0x74, 0x65, 0x73, 0x74, 0x2e, 0x47, 0x65,
+	0x74, 0x54, 0x65, 0x73, 0x74, 0x53, 0x63, 0x6f, 0x72, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
+	0x74, 0x1a, 0x0f, 0x2e, 0x74, 0x65, 0x73, 0x74, 0x2e, 0x54, 0x65, 0x73, 0x74, 0x53, 0x63, 0x6f,
+	0x72, 0x65, 0x42, 0x1b, 0x5a, 0x19, 0x70, 0x6c, 0x61, 0x74, 0x7a, 0x69, 0x2e, 0x63, 0x6f, 0x6d,
+	0x2f, 0x67, 0x6f, 0x2f, 0x67, 0x72, 0x70, 0x63, 0x2f, 0x74, 0x65, 0x73, 0x74, 0x70, 0x62, 0x62,
+	0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -616,7 +786,7 @@ func file_testpb_test_proto_rawDescGZIP() []byte {
 	return file_testpb_test_proto_rawDescData
 }
 
-var file_testpb_test_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
+var file_testpb_test_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
 var file_testpb_test_proto_goTypes = []interface{}{
 	(*Test)(nil),                      // 0: test.Test
 	(*GetTestRequest)(nil),            // 1: test.GetTestRequest
@@ -627,26 +797,30 @@ var file_testpb_test_proto_goTypes = []interface{}{
 	(*EnrollmentRequest)(nil),         // 6: test.EnrollmentRequest
 	(*GetStudentsPerTestRequest)(nil), // 7: test.GetStudentsPerTestRequest
 	(*TakeTestRequest)(nil),           // 8: test.TakeTestRequest
-	(*studentpb.Student)(nil),         // 9: student.Student
+	(*GetTestScoreRequest)(nil),       // 9: test.GetTestScoreRequest
+	(*TestScore)(nil),                 // 10: test.TestScore
+	(*studentpb.Student)(nil),         // 11: student.Student
 }
 var file_testpb_test_proto_depIdxs = []int32{
-	1, // 0: test.TestService.GetTest:input_type -> test.GetTestRequest
-	0, // 1: test.TestService.SetTest:input_type -> test.Test
-	3, // 2: test.TestService.SetQuestions:input_type -> test.Question
-	6, // 3: test.TestService.EnrollStudents:input_type -> test.EnrollmentRequest
-	7, // 4: test.TestService.GetStudentsPerTest:input_type -> test.GetStudentsPerTestRequest
-	8, // 5: test.TestService.TakeTest:input_type -> test.TakeTestRequest
-	0, // 6: test.TestService.GetTest:output_type -> test.Test
-	2, // 7: test.TestService.SetTest:output_type -> test.SetTestResponse
-	5, // 8: test.TestService.SetQuestions:output_type -> test.SetQuestionResponse
-	5, // 9: test.TestService.EnrollStudents:output_type -> test.SetQuestionResponse
-	9, // 10: test.TestService.GetStudentsPerTest:output_type -> student.Student
-	4, // 11: test.TestService.TakeTest:output_type -> test.QuestionPerTest
-	6, // [6:12] is the sub-list for method output_type
-	0, // [0:6] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	1,  // 0: test.TestService.GetTest:input_type -> test.GetTestRequest
+	0,  // 1: test.TestService.SetTest:input_type -> test.Test
+	3,  // 2: test.TestService.SetQuestions:input_type -> test.Question
+	6,  // 3: test.TestService.EnrollStudents:input_type -> test.EnrollmentRequest
+	7,  // 4: test.TestService.GetStudentsPerTest:input_type -> test.GetStudentsPerTestRequest
+	8,  // 5: test.TestService.TakeTest:input_type -> test.TakeTestRequest
+	9,  // 6: test.TestService.GetTestScore:input_type -> test.GetTestScoreRequest
+	0,  // 7: test.TestService.GetTest:output_type -> test.Test
+	2,  // 8: test.TestService.SetTest:output_type -> test.SetTestResponse
+	5,  // 9: test.TestService.SetQuestions:output_type -> test.SetQuestionResponse
+	5,  // 10: test.TestService.EnrollStudents:output_type -> test.SetQuestionResponse
+	11, // 11: test.TestService.GetStudentsPerTest:output_type -> student.Student
+	4,  // 12: test.TestService.TakeTest:output_type -> test.QuestionPerTest
+	10, // 13: test.TestService.GetTestScore:output_type -> test.TestScore
+	7,  // [7:14] is the sub-list for method output_type
+	0,  // [0:7] is the sub-list for method input_type
+	0,  // [0:0] is the sub-list for extension type_name
+	0,  // [0:0] is the sub-list for extension extendee
+	0,  // [0:0] is the sub-list for field type_name
 }
 
 func init() { file_testpb_test_proto_init() }
@@ -763,6 +937,30 @@ func file_testpb_test_proto_init() {
 				return nil
 			}
 		}
+		file_testpb_test_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetTestScoreRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_testpb_test_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*TestScore); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -770,7 +968,7 @@ func file_testpb_test_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_testpb_test_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   9,
+			NumMessages:   11,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

@@ -196,9 +196,15 @@ func (s *TestServer) TakeTest(stream testpb.TestService_TakeTestServer) error {
 				}
 
 				log.Println("Answer: ", answer.GetAnswer())
-				currentQuestion.Answer = answer.GetAnswer()
+				answerModel := &models.Answer{
+					TestId:     msg.GetTestId(),
+					QuestionId: currentQuestion.Id,
+					StudentId:  msg.GetStudentId(),
+					Answer:     answer.Answer,
+					Correct:    (answer.Answer == currentQuestion.Answer),
+				}
 
-				err = s.repo.SetAnswer(context.Background(), currentQuestion)
+				err = s.repo.SetAnswer(context.Background(), answerModel)
 
 				if err != nil {
 					fmt.Println(err)
@@ -227,4 +233,21 @@ func (s *TestServer) TakeTest(stream testpb.TestService_TakeTestServer) error {
 			}
 		}
 	}
+}
+
+func (s *TestServer) GetTestScore(ctx context.Context, req *testpb.GetTestScoreRequest) (*testpb.TestScore, error) {
+	testScore, err := s.repo.GetTestScore(ctx, req.GetTestId(), req.GetStudentId())
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &testpb.TestScore{
+		TestId:    testScore.TestId,
+		StudentId: testScore.StudentId,
+		Ok:        testScore.Ok,
+		Ko:        testScore.Ko,
+		Total:     testScore.Total,
+		Score:     testScore.Score,
+	}, nil
 }

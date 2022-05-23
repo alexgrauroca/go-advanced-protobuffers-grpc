@@ -78,7 +78,7 @@ func (repo *PostgresRepository) SetEnrollment(ctx context.Context, enrollment *m
 }
 
 func (repo *PostgresRepository) GetQuestionPerTest(ctx context.Context, testId string) ([]*models.Question, error) {
-	rows, err := repo.db.QueryContext(ctx, "SELECT id, question FROM questions WHERE test_id = $1", testId)
+	rows, err := repo.db.QueryContext(ctx, "SELECT id, question, answer FROM questions WHERE test_id = $1", testId)
 
 	if err != nil {
 		return nil, err
@@ -96,7 +96,7 @@ func (repo *PostgresRepository) GetQuestionPerTest(ctx context.Context, testId s
 	for rows.Next() {
 		var question = models.Question{}
 
-		if err := rows.Scan(&question.Id, &question.Question); err == nil {
+		if err := rows.Scan(&question.Id, &question.Question, &question.Answer); err == nil {
 			questions = append(questions, &question)
 		}
 	}
@@ -106,4 +106,51 @@ func (repo *PostgresRepository) GetQuestionPerTest(ctx context.Context, testId s
 	}
 
 	return questions, nil
+}
+
+func (repo *PostgresRepository) SetAnswer(ctx context.Context, answer *models.Answer) error {
+	_, err := repo.db.ExecContext(ctx, "INSERT INTO answers (student_id, test_id, question_id, answer, correct) VALUES($1, $2, $3, $4, $5)", answer.StudentId, answer.TestId, answer.QuestionId, answer.Answer, answer.Correct)
+	return err
+}
+
+func (repo *PostgresRepository) GetTestScore(ctx context.Context, testId, studentId string) (*models.TestScore, error) {
+	rows, err := repo.db.QueryContext(ctx, "SELECT correct FROM answers WHERE test_id = $1 AND student_id = $2", testId, studentId)
+
+	if err != nil {
+		return nil, err
+	}
+
+	defer func() {
+		err := rows.Close()
+
+		if err != nil {
+			log.Fatal(err)
+		}
+	}()
+
+	var answer = models.Answer{}
+	var testScore = models.TestScore{
+		TestId:    testId,
+		StudentId: studentId,
+	}
+
+	for rows.Next() {
+		err := rows.Scan(&answer.Correct)
+
+		if err != nil {
+			return nil, err
+		}
+
+		testScore.Total += 1
+
+		if answer.Correct {
+			testScore.Ok += 1
+		} else {
+			testScore.Ko += 1
+		}
+	}
+
+	testScore.Score = testScore.Ok * 10 / testScore.Total
+
+	return &testScore, nil
 }

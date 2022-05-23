@@ -15,7 +15,8 @@ type Repository interface {
 	SetEnrollment(ctx context.Context, enrollment *models.Enrollment) error
 	GetStudentsPerTest(ctx context.Context, testId string) ([]*models.Student, error)
 	GetQuestionPerTest(ctx context.Context, testId string) ([]*models.Question, error)
-	SetAnswer(ctx context.Context, question *models.Question) error
+	SetAnswer(ctx context.Context, answer *models.Answer) error
+	GetTestScore(ctx context.Context, testId, studentId string) (*models.TestScore, error)
 }
 
 var implementation Repository
