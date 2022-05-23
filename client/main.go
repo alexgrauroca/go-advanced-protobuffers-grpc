@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"io"
 	"log"
 
 	"google.golang.org/grpc"
@@ -19,8 +20,10 @@ func main() {
 	defer cc.Close()
 
 	c := testpb.NewTestServiceClient(cc)
-	DoUnary(c)
-	DoClientStreaming(c)
+	//DoUnary(c)
+	//DoClientStreaming(c)
+	//DoServerStreaming(c)
+	DoBidireccionalStreaming(c)
 }
 
 func DoUnary(c testpb.TestServiceClient) {
@@ -77,4 +80,80 @@ func DoClientStreaming(c testpb.TestServiceClient) {
 	}
 
 	log.Printf("response from server: %v", msg)
+}
+
+func DoServerStreaming(c testpb.TestServiceClient) {
+	req := &testpb.GetStudentsPerTestRequest{
+		TestId: "t1",
+	}
+
+	stream, err := c.GetStudentsPerTest(context.Background(), req)
+
+	if err != nil {
+		log.Fatalf("Error while calling GetStudentsPerTest: %v", err)
+	}
+
+	for {
+		msg, err := stream.Recv()
+
+		// Last message from server
+		if err == io.EOF {
+			break
+		}
+
+		if err != nil {
+			log.Fatalf("Error while reading stream: %v", err)
+		}
+
+		log.Printf("Server response: %v", msg)
+	}
+
+	closeErr := stream.CloseSend()
+
+	if closeErr != nil {
+		log.Fatalf("Error while closing stream: %v", closeErr)
+	}
+
+	log.Println("Connection closed")
+}
+
+func DoBidireccionalStreaming(c testpb.TestServiceClient) {
+	startTest := &testpb.TakeTestRequest{
+		TestId: "t1",
+	}
+	testAnswer := &testpb.TakeTestRequest{
+		TestId: "t1",
+		Answer: "asdasdas",
+	}
+	stream, err := c.TakeTest(context.Background())
+
+	if err != nil {
+		log.Fatalf("Error while calling TakeTest: %v", err)
+	}
+
+	stream.Send(startTest)
+
+	for {
+		msg, err := stream.Recv()
+
+		// Last message from server
+		if err == io.EOF || msg.GetOk() {
+			break
+		}
+
+		if err != nil {
+			log.Fatalf("Error while reading stream: %v", err)
+		}
+
+		log.Printf("question %v", msg)
+		stream.Send(testAnswer)
+	}
+
+	closeErr := stream.CloseSend()
+
+	if closeErr != nil {
+		log.Fatalf("Error while closing stream: %v", closeErr)
+	}
+
+	log.Println("Connection closed")
 }

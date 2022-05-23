@@ -119,6 +119,7 @@ func (s *TestServer) GetStudentsPerTest(req *testpb.GetStudentsPerTestRequest, s
 	students, err := s.repo.GetStudentsPerTest(context.Background(), req.GetTestId())
 
 	if err != nil {
+		log.Printf("Getting from repo error: %v", err)
 		return err
 	}
 
@@ -133,6 +134,7 @@ func (s *TestServer) GetStudentsPerTest(req *testpb.GetStudentsPerTestRequest, s
 		err := stream.Send(student)
 
 		if err != nil {
+			log.Printf("Sending error: %v", err)
 			return err
 		}
 	}
@@ -212,6 +214,10 @@ func (s *TestServer) TakeTest(stream testpb.TestService_TakeTestServer) error {
 				}
 
 				err := stream.Send(questionToSend)
+
+				if err == io.EOF {
+					return nil
+				}
 
 				if err != nil {
 					return err

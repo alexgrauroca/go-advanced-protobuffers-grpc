@@ -42,7 +42,7 @@ func (repo *PostgresRepository) GetTest(ctx context.Context, id string) (*models
 }
 
 func (repo *PostgresRepository) GetStudentsPerTest(ctx context.Context, testId string) ([]*models.Student, error) {
-	rows, err := repo.db.QueryContext(ctx, "SELECT id, name, age FROM Questions WHERE id IN (SELECT student_id FROM enrollments WHERE test_id = $1)", testId)
+	rows, err := repo.db.QueryContext(ctx, "SELECT id, name, age FROM students WHERE id IN (SELECT student_id FROM enrollments WHERE test_id = $1)", testId)
 
 	if err != nil {
 		return nil, err
